@@ -16,3 +16,16 @@ h1{
 h1{
     font-family: 'RubikBubbles', sans-serif;
 }
+
+.button_js.col-12{
+    text-align: center;
+}
+
+#myButton {
+    background-color: rgb(162, 149, 249);
+    color: rgb(255, 255, 255);
+    font-family: 'Comfortaa';
+    width: 260px;
+    height: 20px;
+    border-radius: 15px;
+}
