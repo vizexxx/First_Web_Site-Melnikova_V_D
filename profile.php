@@ -38,20 +38,52 @@
                 </dev>
             </dev>
         </div>
-        <div class="raw">
+        <div class="row">
             <dev class="col-2">
                 <p style="color:rgb(121, 102, 242); text-align: center; font-family: Comfortaa;margin-top: 5px;margin-bottom: 0px;">Сайт выполнила: Мельникова Валерия Дмитриевна</p>
             </dev>
         </div>
+
         <div class="container">
             <div class="row">
                 <div class="button_js col-12">
-                    <button id="myButton" >Тыкни  на меня и пролистни вниз</button>
-                    <p id="image" style="margin-top: 5px; margin-bottom: 0px;"></p>
+                    <button id="myButton" style="text-align: center;">Тыкни  на меня и пролистни вниз</button>
+                    <p id="image" style="margin-top: 5px; margin-bottom: 30px;"></p>
                 </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript" src="javascript/button.js"></script>
+
+	<div class="container">
+		<div class="row">
+			<dev class="col-8">
+				<p style="color:rgb(109, 91, 228); text-align: center;font-family: Comfortaa; font-size: 35px;margin-bottom: 10px;margin-top: 0px;">Добро пожаловать, <?php echo $_COOKIE['User'];?>!</p>
+			</dev>
+                	<dev class="col-8">
+                		<form method="POST" action="/First_Web_Site-Melnikova_V_D/profile.php" style="display: grid;place-items: center;">
+                        		<input class="form" type="text" name="title" placeholder="Заголовок поста" style="margin-bottom: 10px;width:600px">
+                         		<textarea name="text" cols="30" rows="10" placeholder="Введите содержание поста..." style="margin-bottom: 10px;width: 600px;height:400px;"></textarea>
+                         		<button type="submit" class="btn_red btn_reg" name="submit" style="width: 150px;border-radius: 15px;font-family: Comfortaa;background-color: rgb(162, 149, 249);color: rgb(255,255,255)">Сохранить пост</button>
+                    		</form>
+			</dev>
+                </div>
+	</div>
+
+</div>
+<script type="text/javascript" src="javascript/button.js"></script>
 </body>
 </html>
+<?php
+require_once('db.php');
+$link = mysqli_connect('127.0.0.1', 'root', 'qwerty123', 'first');
+if (isset($_POST['submit'])) {
+	$title = $_POST['title'];
+	$main_text = $_POST['text'];
+
+	if (!$title || !$main_text) die("Заполните все поля");
+
+	$sql = "INSERT INTO posts (title, main_text) VALUES ('$title', '$main_text')";
+
+	if (!mysqli_query($link, $sql)) die("Не удалось добавить пост");
+
+}
+?>
