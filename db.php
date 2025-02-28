@@ -33,11 +33,21 @@ if(!mysqli_query($link, $sql)){
 $sql = "CREATE TABLE IF NOT EXISTS posts(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	title VARCHAR(20) NOT NULL,
-	main_text VARCHAR(400) NOT NULL
+	main_text VARCHAR(400) NOT NULL,
+	img_path VARCHAR(400)
 )";
 
 if(!mysqli_query($link, $sql)){
 	echo "He удалось создать таблицу posts";
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS images(
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        path VARCHAR(400) NOT NULL
+)";
+
+if(!mysqli_query($link, $sql)){
+        echo "He удалось создать таблицу images";
 }
 
 mysqli_close($link);

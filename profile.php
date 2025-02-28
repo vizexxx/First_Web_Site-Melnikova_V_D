@@ -62,7 +62,7 @@
                 		<form method="POST" action="/First_Web_Site-Melnikova_V_D/profile.php" style="display: grid;place-items: center;" enctype="multipart/form-data" name="upload">
                         		<input class="form" type="text" name="title" placeholder="Заголовок поста" style="margin-bottom: 10px;width:600px">
                          		<textarea name="text" cols="30" rows="10" placeholder="Введите содержание поста..." style="margin-bottom: 10px;width: 600px;height:400px;"></textarea>
-					<input style="margin-bottom: 10px;" type="file" name="file" /></br>
+					<input style="margin-bottom: 10px;" type="file" name="file" />
                          		<button type="submit" class="btn_red btn_reg" name="submit" style="width: 150px;border-radius: 15px;font-family: Comfortaa;background-color: rgb(162, 149, 249);color: rgb(255,255,255)">Сохранить пост</button>
                     		</form>
 			</dev>
@@ -79,10 +79,10 @@ $link = mysqli_connect('127.0.0.1', 'root', 'qwerty123', 'first');
 if (isset($_POST['submit'])) {
 	$title = $_POST['title'];
 	$main_text = $_POST['text'];
-
+	$img_path = "/First_Web_Site-Melnikova_V_D/upload/" . $_FILES["file"]["name"];
 	if (!$title || !$main_text) die("Заполните все поля");
 
-	$sql = "INSERT INTO posts (title, main_text) VALUES ('$title', '$main_text')";
+	$sql = "INSERT INTO posts (title, main_text, img_path) VALUES ('$title', '$main_text', '$img_path')";
 
 	if (!mysqli_query($link, $sql)) die("Не удалось добавить пост");
 if(!empty($_FILES["file"]))
@@ -92,8 +92,10 @@ if(!empty($_FILES["file"]))
         || (@$_FILES["file"]["type"] == "image/x-png") || (@$_FILES["file"]["type"] == "image/png"))
         && (@$_FILES["file"]["size"] < 102400))
         {
-            move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $_FILES["file"]["name"]);
             echo "Load in:  " . "upload/" . $_FILES["file"]["name"];
+	    move_uploaded_file($_FILES["file"]["tmp_name"], "/First_Web_Site-Melnikova_V_D/upload/" . $_FILES["file"]["name"]);
+	    $sql = "INSERT INTO images (path) VALUES ('$img_path')";
+	    if (!mysqli_query($link, $sql)) die("Не удалось добавить картинку");
         }
         else
         {

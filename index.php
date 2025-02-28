@@ -14,7 +14,7 @@
                         if (!isset($_COOKIE['User'])) {
        ?>
 				<h1 style="color:rgb(121, 102, 242); text-align: center;font-family: Rubik Bubbles">Авторизуйтесь</h1>
-          <p style="color:rgb(121, 102, 242); text-align: center;font-family: Comfortaa;"> <a href="/registration.php" style="color:rgb(85,61,240);">Зарегистрируйтесь</a> или <a href="/login.php" style="color:rgb(85,61, 240);">войдите</a>, чтобы просматривать контент!</p>
+          <p style="color:rgb(121, 102, 242); text-align: center;font-family: Comfortaa;"> <a href="/First_Web_Site-Melnikova_V_D/registration.php" style="color:rgb(85,61,240);">Зарегистрируйтесь</a> или <a href="/First_Web_Site-Melnikova_V_D/login.php" style="color:rgb(85,61, 240);">войдите</a>, чтобы просматривать контент!</p>
        <?php
        } else {
 		echo "<h1 style='color:rgb(121, 102, 242); text-align: center;font-family: Rubik Bubbles'>Ваши постики</h1>";
@@ -25,11 +25,25 @@
 
 		if (mysqli_num_rows($res) >  0) {
         	    while ($post = mysqli_fetch_array($res)) {
-		                echo "<a href='/posts.php?id=" . $post["id"] . "'>" . $post['title'] . "</a>\n";
+		                echo "<a href='/First_Web_Site-Melnikova_V_D/posts.php?id=" . $post["id"] . "'>" . $post['title'] . "</a>\n";
          		}
            	} else {
 			echo "Записей пока нет";
            	}
+		echo "<h1 style='color:rgb(121, 102, 242); text-align: center;font-family: Rubik Bubbles'>Ваши картиночки</h1>";
+                $link = mysqli_connect('127.0.0.1', 'root', 'qwerty123', 'first');
+
+                $sql = "SELECT * FROM images;";
+                $res = mysqli_query($link, $sql);
+
+                if (mysqli_num_rows($res) >  0) {
+                    while ($image = mysqli_fetch_array($res)) {
+                                echo "<a href='/First_Web_Site-Melnikova_V_D/images.php?id=" . $image["id"] . "'>" . $image['path'] . "</a>\n";
+                        }
+                } else {
+                        echo "Картиночек пока нет";
+                }
+
        }
 	   ?>
             </dev>
