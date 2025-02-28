@@ -59,9 +59,10 @@
 				<p style="color:rgb(109, 91, 228); text-align: center;font-family: Comfortaa; font-size: 35px;margin-bottom: 10px;margin-top: 0px;">Добро пожаловать, <?php echo $_COOKIE['User'];?>!</p>
 			</dev>
                 	<dev class="col-8">
-                		<form method="POST" action="/First_Web_Site-Melnikova_V_D/profile.php" style="display: grid;place-items: center;">
+                		<form method="POST" action="/First_Web_Site-Melnikova_V_D/profile.php" style="display: grid;place-items: center;" enctype="multipart/form-data" name="upload">
                         		<input class="form" type="text" name="title" placeholder="Заголовок поста" style="margin-bottom: 10px;width:600px">
                          		<textarea name="text" cols="30" rows="10" placeholder="Введите содержание поста..." style="margin-bottom: 10px;width: 600px;height:400px;"></textarea>
+					<input style="margin-bottom: 10px;" type="file" name="file" /></br>
                          		<button type="submit" class="btn_red btn_reg" name="submit" style="width: 150px;border-radius: 15px;font-family: Comfortaa;background-color: rgb(162, 149, 249);color: rgb(255,255,255)">Сохранить пост</button>
                     		</form>
 			</dev>
@@ -84,6 +85,20 @@ if (isset($_POST['submit'])) {
 	$sql = "INSERT INTO posts (title, main_text) VALUES ('$title', '$main_text')";
 
 	if (!mysqli_query($link, $sql)) die("Не удалось добавить пост");
-
+if(!empty($_FILES["file"]))
+    {
+        if (((@$_FILES["file"]["type"] == "image/gif") || (@$_FILES["file"]["type"] == "image/jpeg")
+        || (@$_FILES["file"]["type"] == "image/jpg") || (@$_FILES["file"]["type"] == "image/pjpeg")
+        || (@$_FILES["file"]["type"] == "image/x-png") || (@$_FILES["file"]["type"] == "image/png"))
+        && (@$_FILES["file"]["size"] < 102400))
+        {
+            move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $_FILES["file"]["name"]);
+            echo "Load in:  " . "upload/" . $_FILES["file"]["name"];
+        }
+        else
+        {
+            echo "upload failed!";
+        }
+    }
 }
 ?>
