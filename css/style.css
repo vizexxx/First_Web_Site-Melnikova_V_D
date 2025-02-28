@@ -9,12 +9,14 @@
     src: url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Rubik+Bubbles&display=swap');
 }
 
-h1{
+p{
     font-family: 'Comfortaa', sans-serif;
+    text-align: center;
 }
 
 h1{
     font-family: 'RubikBubbles', sans-serif;
+    text-align: center;
 }
 
 .button_js.col-12{
