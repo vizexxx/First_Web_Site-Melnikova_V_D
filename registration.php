@@ -39,6 +39,7 @@ if (isset($_POST['submit'])) {
 	if (!$email || !$username || !$password) die('Пожалуйста введите все значения!');
 
 	$sql = "INSERT INTO users (email, username, password) VALUES ('$email', '$username', '$password')";
+	header('Location: /First_Web_Site-Melnikova_V_D/profile.php');
 
 	if(!mysqli_query($link, $sql)) {
  		 echo "Не удалось добавить пользователя";
