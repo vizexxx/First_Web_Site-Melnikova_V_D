@@ -15,7 +15,7 @@
         </div>
 		<div class="row">
 			<div class="col-12">
-				<form method="POST" action="/First_Web_Site-Melnikova_V_D/registration.php" style="text-align: center;">
+				<form method="POST" action="/registration.php" style="text-align: center;">
 					<div class="row form＿reg" style="margin-bottom: 10px;"><input class="form" type="email" name="email" placeholder="Email" required></div>
 					<div class="row form＿reg" style="margin-bottom: 10px;"><input class="form" type="text" name="login" placeholder="Login" required></div>
 					<div class="row form＿reg" style="margin-bottom: 20px;"><input class="form" type="password" name="password" placeholder="Password" required></div>
@@ -27,7 +27,7 @@
 </html>
 <?php
 if (isset($_COOKIE['User'])) {
-    header("Location: /First_Web_Site-Melnikova_V_D/profile.php");
+    header("Location: /profile.php");
 }
 require_once('db.php');
 $link = mysqli_connect('10.10.0.3', 'root', 'qwerty123', 'first');
@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
 	if (!$email || !$username || !$password) die('Пожалуйста введите все значения!');
 
 	$sql = "INSERT INTO users (email, username, password) VALUES ('$email', '$username', '$password')";
-	header('Location: /First_Web_Site-Melnikova_V_D/login.php');
+	header('Location: /login.php');
 
 	if(!mysqli_query($link, $sql)) {
  		 echo "Не удалось добавить пользователя";

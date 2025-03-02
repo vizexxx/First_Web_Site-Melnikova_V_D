@@ -15,7 +15,7 @@
         </div>
                 <div class="row">
                         <div class="col-12">
-                                <form method="POST" action="/First_Web_Site-Melnikova_V_D/login.php" style="text-align: center;">
+                                <form method="POST" action="/login.php" style="text-align: center;">
                                         <div class="row form＿reg" style="margin-bottom: 10px;"><input class="form" type="text" name="login" placeholder="Login" required></div>
                                         <div class="row form＿reg" style="margin-bottom: 20px;"><input class="form" type="password" name="password" placeholder="Password" required></div>
                                         <button type="submit" class="btn_red btn_reg" name="submit" style="width: 150px;border-radius: 15px;font-family: Comfortaa;background-color: rgb(162, 149, 249);color: rgb(255,255,255)">Продолжить</button>
@@ -26,7 +26,7 @@
 </html>
 <?php
 if (isset($_COOKIE['User'])) {
-    header("Location: /First_Web_Site-Melnikova_V_D/profile.php");
+    header("Location: /profile.php");
 }
 require_once('db.php');
 $link = mysqli_connect('10.10.0.3', 'root', 'qwerty123', 'first');
@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
 
 		if (mysqli_num_rows($result) == 1) {
 			setcookie("User", $username, time()+7200);
-			header('Location: /First_Web_Site-Melnikova_V_D/profile.php');
+			header('Location: /profile.php');
 		} else {
 			echo "не правильное имя или пароль";
 		}

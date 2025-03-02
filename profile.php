@@ -59,7 +59,7 @@
 				<p style="color:rgb(109, 91, 228); text-align: center;font-family: Comfortaa; font-size: 35px;margin-bottom: 10px;margin-top: 0px;">Добро пожаловать, <?php echo $_COOKIE['User'];?>!</p>
 			</dev>
                 	<dev class="col-8">
-                		<form method="POST" action="/First_Web_Site-Melnikova_V_D/profile.php" style="display: grid;place-items: center;" enctype="multipart/form-data" name="upload">
+                		<form method="POST" action="/profile.php" style="display: grid;place-items: center;" enctype="multipart/form-data" name="upload">
                         		<input class="form" type="text" name="title" placeholder="Заголовок поста" style="margin-bottom: 10px;width:600px">
                          		<textarea name="text" cols="30" rows="10" placeholder="Введите содержание поста..." style="margin-bottom: 10px;width: 600px;height:400px;"></textarea>
 					<input style="margin-bottom: 10px;" type="file" name="file" />
@@ -77,30 +77,53 @@
 require_once('db.php');
 $link = mysqli_connect('10.10.0.3', 'root', 'qwerty123', 'first');
 if (isset($_POST['submit'])) {
-	$title = $_POST['title'];
-	$main_text = $_POST['text'];
-	$img_path = "/First_Web_Site-Melnikova_V_D/upload/" . $_FILES["file"]["name"];
+	$title = strip_tags($_POST['title']);
+    	$main_text = strip_tags($_POST['text']);
+	$title = mysqli_real_escape_string($link, $title);
+	$main_text = mysqli_real_escape_string($link, $main_text);
 	if (!$title || !$main_text) die("Заполните все поля");
-
-	$sql = "INSERT INTO posts (title, main_text, img_path) VALUES ('$title', '$main_text', '$img_path')";
-
-	if (!mysqli_query($link, $sql)) die("Не удалось добавить пост");
+    	$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+    	$main_text = htmlspecialchars($main_text, ENT_QUOTES, 'UTF-8');
 if(!empty($_FILES["file"]))
-    {
-        if (((@$_FILES["file"]["type"] == "image/gif") || (@$_FILES["file"]["type"] == "image/jpeg")
-        || (@$_FILES["file"]["type"] == "image/jpg") || (@$_FILES["file"]["type"] == "image/pjpeg")
-        || (@$_FILES["file"]["type"] == "image/x-png") || (@$_FILES["file"]["type"] == "image/png"))
-        && (@$_FILES["file"]["size"] < 102400))
-        {
-            echo "Load in:  " . "upload/" . $_FILES["file"]["name"];
-	    move_uploaded_file($_FILES["file"]["tmp_name"], "/First_Web_Site-Melnikova_V_D/upload/" . $_FILES["file"]["name"]);
-	    $sql = "INSERT INTO images (path) VALUES ('$img_path')";
-	    if (!mysqli_query($link, $sql)) die("Не удалось добавить картинку");
-        }
-        else
-        {
-            echo "upload failed!";
-        }
-    }
+    	{
+		$errors = [];
+        	$allowedTypes = ['image/gif', 'image/jpeg', 'image/jpg', 'image/pjpeg', 'image/x-png', 'image/png'];
+        	$maxFileSize = 102400;
+
+        	if ($_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+				$sql = "INSERT INTO posts (title, main_text, img_path) VALUES ('$title', '$main_text', '')";
+                if (!mysqli_query($link, $sql)) die("Не удалось добавить пост");
+        	}
+
+        	$realFileSize = filesize($_FILES['file']['tmp_name']);
+        	if ($realFileSize > $maxFileSize) {
+            		$errors[] = 'Файл слишком большой.';
+        	}
+
+        	$fileType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $_FILES['file']['tmp_name']);
+        	if (!in_array($fileType, $allowedTypes)) {
+            		$errors[] = 'Недопустимый тип файла.';
+        	}
+
+        	if (empty($errors)) {
+            		$tempPath = $_FILES['file']['tmp_name'];
+            		$destinationPath = 'upload/' . uniqid() . '_' . basename($_FILES['file']['name']);
+            		if (move_uploaded_file($tempPath, $destinationPath)) {
+				$sql = "INSERT INTO images (path) VALUES ('$destinationPath')";
+				if (!mysqli_query($link, $sql)) die("Не удалось добавить картинку");
+				$sql = "INSERT INTO posts (title, main_text, img_path) VALUES ('$title', '$main_text', '$destinationPath')";
+			        if (!mysqli_query($link, $sql)) die("Не удалось добавить пост");
+
+                		echo "Файл загружен успешно: " . $destinationPath;
+            		} else {
+                		$errors[] = 'Не удалось переместить загруженный файл.';
+            		}
+        	} else {
+            		foreach ($errors as $error) {
+                		echo $error . '<br>';
+            		}
+        	}
+
+	}
 }
 ?>

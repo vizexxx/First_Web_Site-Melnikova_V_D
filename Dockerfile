@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     php-mysql \
     libapache2-mod-php
 
-WORKDIR /var/www/html/First_Web_Site-Melnikova_V_D
+WORKDIR /var/www/html
 
 COPY . .
 
