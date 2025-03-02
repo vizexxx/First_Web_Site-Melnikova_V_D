@@ -18,7 +18,7 @@
        <?php
        } else {
 		echo "<h1 style='color:rgb(121, 102, 242); text-align: center;font-family: Rubik Bubbles'>Ваши постики</h1>";
-		$link = mysqli_connect('127.0.0.1', 'root', 'qwerty123', 'first');
+		$link = mysqli_connect('10.10.0.3', 'root', 'qwerty123', 'first');
 
 		$sql = "SELECT * FROM posts";
 		$res = mysqli_query($link, $sql);
@@ -31,11 +31,9 @@
 			echo "Записей пока нет";
            	}
 		echo "<h1 style='color:rgb(121, 102, 242); text-align: center;font-family: Rubik Bubbles'>Ваши картиночки</h1>";
-                $link = mysqli_connect('127.0.0.1', 'root', 'qwerty123', 'first');
-
+		$link = mysqli_connect('10.10.0.3', 'root', 'qwerty123', 'first');
                 $sql = "SELECT * FROM images;";
                 $res = mysqli_query($link, $sql);
-
                 if (mysqli_num_rows($res) >  0) {
                     while ($image = mysqli_fetch_array($res)) {
                                 echo "<a href='/First_Web_Site-Melnikova_V_D/images.php?id=" . $image["id"] . "'>" . $image['path'] . "</a>\n";

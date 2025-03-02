@@ -3,6 +3,7 @@ version: '3'
 services:
   web:
     build:
+      context: .
       dockerfile: Dockerfile
     container_name: web_app
     ports:
@@ -18,7 +19,6 @@ services:
       app_net:
         ipv4_address: 10.10.0.2
     volumes:
-      - ./html:/var/www/html
       - db_data:/var/lib/mysql
 
   db:
@@ -27,8 +27,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=qwerty123
       - MYSQL_DATABASE=first
-      - MYSQL_USER=meow
-      - MYSQL_PASSWORD=342
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=qwerty123
     volumes:
       - db_data:/var/lib/mysql
     networks:

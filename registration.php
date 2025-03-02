@@ -30,7 +30,7 @@ if (isset($_COOKIE['User'])) {
     header("Location: /First_Web_Site-Melnikova_V_D/profile.php");
 }
 require_once('db.php');
-$link = mysqli_connect('127.0.0.1', 'root', 'qwerty123', 'first');
+$link = mysqli_connect('10.10.0.3', 'root', 'qwerty123', 'first');
 if (isset($_POST['submit'])) {
 	$email = $_POST['email'];
 	$username = $_POST['login'];
@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
 	if (!$email || !$username || !$password) die('Пожалуйста введите все значения!');
 
 	$sql = "INSERT INTO users (email, username, password) VALUES ('$email', '$username', '$password')";
-	header('Location: /First_Web_Site-Melnikova_V_D/profile.php');
+	header('Location: /First_Web_Site-Melnikova_V_D/login.php');
 
 	if(!mysqli_query($link, $sql)) {
  		 echo "Не удалось добавить пользователя";

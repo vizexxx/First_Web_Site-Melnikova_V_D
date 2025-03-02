@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <dev class="col-12">
-                <p style="color:rgb(109, 91, 228); text-align: center;font-family: Rubik Bubbles; font-size: 43px;margin-bottom: 10px;margin-top: 0px;">Регистрация</p>
+                <p style="color:rgb(109, 91, 228); text-align: center;font-family: Rubik Bubbles; font-size: 43px;margin-bottom: 10px;margin-top: 0px;">Вход в аккаунт</p>
             </dev>
         </div>
                 <div class="row">
@@ -29,7 +29,7 @@ if (isset($_COOKIE['User'])) {
     header("Location: /First_Web_Site-Melnikova_V_D/profile.php");
 }
 require_once('db.php');
-$link = mysqli_connect('127.0.0.1', 'root', 'qwerty123', 'first');
+$link = mysqli_connect('10.10.0.3', 'root', 'qwerty123', 'first');
 if (isset($_POST['submit'])) {
         $username = $_POST['login'];
         $password = $_POST['password'];

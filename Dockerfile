@@ -7,14 +7,16 @@ RUN apt-get update && apt-get install -y \
     apache2 \
     php \
     php-mysql \
-	libapache2-mod-php
+    libapache2-mod-php
 
 WORKDIR /var/www/html/First_Web_Site-Melnikova_V_D
 
 COPY . .
 
+RUN echo "ServerName 10.10.0.2" >> /etc/apache2/apache2.conf
+
 RUN a2enmod rewrite
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["apachectl", "-D", "FOREGROUND"]
